@@ -36,3 +36,8 @@ Create a link with the following params
 | &txMessage=0x01   | The message of transaction compiled                              |
 
 example to send a transaction: `http://localhost:3000/?action=send&networkId=0&txMessage=0x1000...0000`
+
+## The page url
+
+https://astro-cafe-gamefi.github.io/AstroCafe.Solana.Web3.Connect/
+
