@@ -1,6 +1,6 @@
 # AstroCafe.Solana.Web3.Connect
 
-It makes available to connect Solana web wallets such as the Phantom, Solflare and so on.
+AstroCafe.Solana.Web3.Connect is a Unity library that facilitates interaction between Solana Web3 wallets (e.g. Phatom, Solflare), and games made in Unity on macOS and Windows. This library is called when a transaction on the Solana blockchain is initiated within the game. When a transaction is initiated in the game, a web page is displayed where a connection with Solana Web3 wallets is established, enabling users to interact directly with the Solana blockchain from the Unity game on macOS and Windows.
 
 Link to this site to
 
