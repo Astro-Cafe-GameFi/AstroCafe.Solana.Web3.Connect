@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/AstroCafe.Solana.Web3.Connect/static/css/main.df683a02.css",
+    "main.js": "/AstroCafe.Solana.Web3.Connect/static/js/main.b82607f3.js",
+    "static/js/453.aa4f2fd8.chunk.js": "/AstroCafe.Solana.Web3.Connect/static/js/453.aa4f2fd8.chunk.js",
+    "static/js/648.196aec0b.chunk.js": "/AstroCafe.Solana.Web3.Connect/static/js/648.196aec0b.chunk.js",
+    "static/js/227.8e39ee98.chunk.js": "/AstroCafe.Solana.Web3.Connect/static/js/227.8e39ee98.chunk.js",
+    "static/media/AClogo.png": "/AstroCafe.Solana.Web3.Connect/static/media/AClogo.fa4f7bd6a9f67524ad61.png",
+    "index.html": "/AstroCafe.Solana.Web3.Connect/index.html",
+    "main.df683a02.css.map": "/AstroCafe.Solana.Web3.Connect/static/css/main.df683a02.css.map",
+    "main.b82607f3.js.map": "/AstroCafe.Solana.Web3.Connect/static/js/main.b82607f3.js.map",
+    "453.aa4f2fd8.chunk.js.map": "/AstroCafe.Solana.Web3.Connect/static/js/453.aa4f2fd8.chunk.js.map",
+    "648.196aec0b.chunk.js.map": "/AstroCafe.Solana.Web3.Connect/static/js/648.196aec0b.chunk.js.map",
+    "227.8e39ee98.chunk.js.map": "/AstroCafe.Solana.Web3.Connect/static/js/227.8e39ee98.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.df683a02.css",
+    "static/js/main.b82607f3.js"
+  ]
+}
