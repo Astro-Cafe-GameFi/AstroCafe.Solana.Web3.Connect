@@ -34,7 +34,7 @@ const useSolanaWallet = () => {
     await wallet.disconnect()
   }
 
-  const signPersonalMessage = async(message: string) => {
+  const signPersonalMessage = async(message) => {
     if (account && wallet?.signMessage) {
       const data = new TextEncoder().encode(message);
       const signature = await wallet.signMessage(data);
@@ -44,7 +44,7 @@ const useSolanaWallet = () => {
     return null;
   }
 
-  const sendTransaction = async(txMessage: string) => {
+  const sendTransaction = async(txMessage) => {
     if (account && wallet.publicKey) {
       const data = hexToByte(txMessage);
       const message = VersionedMessage.deserialize(data);

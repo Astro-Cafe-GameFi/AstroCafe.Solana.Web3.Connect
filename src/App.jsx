@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useStateStore } from "./store/stateStore.js";
 import logo from './AClogo.png';
 import './App.css';
 import copyTextToClipboard from './helpers/clipboard';
 import useSolanaWallet from './hooks/useSolanaWallet';
-import { setUseMainnetAction } from './reducers/config';
 
 function App() {
 
-  const dispatch = useDispatch();
+  const setUseMainnet = useStateStore((state) => state.setUseMainnet);
   const { account, connect, reset, signPersonalMessage, sendTransaction } = useSolanaWallet();
 
   const [ response, setResponse ] = useState('');
@@ -18,7 +17,7 @@ function App() {
   const [ showButton, setShowButton ] = useState(false);
   const [ showDisconnectButton, setShowDisconnectButton ] = useState(false);
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text) => {
     copyTextToClipboard(text);
     setButtonText('Copied');
   }
@@ -27,7 +26,7 @@ function App() {
     const handleLoad = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const isMainnet = urlParams.get("networkId") === '0' ? true : false;
-      dispatch(setUseMainnetAction(isMainnet));
+      setUseMainnet(isMainnet);
 
       connect();
     };
@@ -61,7 +60,7 @@ function App() {
     displayResponse("Invalid URL");
   }
 
-  async function signMessage(message: string) {
+  async function signMessage(message) {
     let signature;
     try {
       signature = await signPersonalMessage(message);
@@ -79,7 +78,7 @@ function App() {
     }
   }
 
-  async function sendRawTransaction(txMessage: string) {
+  async function sendRawTransaction(txMessage) {
     let txHash;
     try {
       txHash = await sendTransaction(txMessage);
@@ -95,7 +94,7 @@ function App() {
     }
   }
 
-  function displayResponse(txt: string, resp: string|undefined = undefined) {
+  function displayResponse(txt, resp = undefined) {
     // display error or response
     setText(txt);
     setShowText(true);

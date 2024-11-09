@@ -1,37 +1,40 @@
 /* eslint-disable */
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux'
-
+import { useStateStore } from "../store/stateStore.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
-import { SolflareWalletAdapter } from "@solana/wallet-adapter-solflare";
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+  MathWalletAdapter,
+  TrustWalletAdapter,
+  CoinbaseWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 
 // Default styles that can be overridden by your app
-require('@solana/wallet-adapter-react-ui/styles.css');
+import "@solana/wallet-adapter-react-ui/styles.css";
 
-interface Props {
-  children: any
-}
-
-const SolanaProvider: React.FC<Props> = ({ children }) => {
-  const useMainnet =  useSelector((state: any) => state.config.useMainnet);
+const SolanaProvider = ({ children }) => {
+  const useMainnet = useStateStore((state) => state.useMainnet);
   const network = useMemo(() => useMainnet ? WalletAdapterNetwork.Mainnet : WalletAdapterNetwork.Devnet, [useMainnet]);
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
-      new SolflareWalletAdapter({network: network}),
+      new SolflareWalletAdapter(),
+      new MathWalletAdapter(),
+      new TrustWalletAdapter(),
+      new CoinbaseWalletAdapter(),
     ],
     [network]
   );
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets} autoConnect={true}>
         <WalletModalProvider>
           {children}
         </WalletModalProvider>

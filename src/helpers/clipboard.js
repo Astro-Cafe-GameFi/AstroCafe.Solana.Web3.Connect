@@ -1,4 +1,4 @@
-export default async function copyTextToClipboard(text: string) {
+export default async function copyTextToClipboard(text) {
     try {
         // focus from wallet window back to browser
         window.focus();

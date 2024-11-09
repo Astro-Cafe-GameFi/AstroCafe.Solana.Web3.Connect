@@ -12,7 +12,7 @@ Link to this site to
 
 `yarn` to install
 
-`yarn start` to begin
+`yarn dev` to begin
 
 `yarn build` to compile
 
