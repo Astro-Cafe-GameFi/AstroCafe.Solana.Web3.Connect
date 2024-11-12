@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color:  black;
+  background-color: black;
 }
 
 .header {
@@ -90,4 +90,35 @@ body {
 #response-button:hover {
   cursor: pointer;
   box-shadow: lightgray 0px 0px 10px;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.3
+  ); /* Optional: adds a semi-transparent background */
+  z-index: 9999; /* Ensures the spinner appears on top of other content */
+}
+
+.loading {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid blue;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
