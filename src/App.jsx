@@ -62,7 +62,7 @@ function App() {
       return signMessage(message);
     } else if (action === "send" && txMessage) {
       return sendRawTransaction(txMessage);
-    } else if (action === "sendMultiSign" && txMessage) {
+    } else if (action === "sendbyblock" && txMessage) {
       return sendRawTransaction(txMessage, true);
     }
     displayResponse("Invalid URL");
@@ -101,12 +101,12 @@ function App() {
     }
   }
 
-  async function sendRawTransaction(txMessage, multiSign = false) {
+  async function sendRawTransaction(txMessage, byBlock = false) {
     setIsLoading(true);
     let txHash;
     try {
-      txHash = multiSign
-        ? await sendMultiSignTransaction(txMessage)
+      txHash = byBlock
+        ? await sendTransactionByBlockhash(txMessage)
         : await sendTransaction(txMessage);
     } catch (error) {
       console.error(error);
@@ -165,7 +165,9 @@ function App() {
         <button
           id="response-button"
           className={showButton ? "active" : ""}
-          onClick={() => copyToClipboard(response)}
+          onClick={() => {
+            copyToClipboard(response);
+          }}
         >
           {buttonText}
         </button>

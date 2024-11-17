@@ -49,70 +49,80 @@ const useSolanaWallet = () => {
     return null;
   };
 
-  const sendTransaction = async (txMessage) => {
-    if (account && wallet.publicKey) {
-      const data = hexToByte(txMessage);
-      const message = VersionedMessage.deserialize(data);
-      const {
-        context: { slot: minContextSlot },
-        value: { blockhash, lastValidBlockHeight },
-      } = await connection.getLatestBlockhashAndContext();
-      message.recentBlockhash = blockhash;
-      const transactionMessage = TransactionMessage.decompile(message);
-      const transaction = new VersionedTransaction(
-        transactionMessage.compileToLegacyMessage()
-      );
+  const sendTransactionByBlockhash = async (txMessage) => {
+    try {
+      if (account && wallet.publicKey) {
+        const data = hexToByte(txMessage);
+        const message = VersionedMessage.deserialize(data);
+        const {
+          context: { slot: minContextSlot },
+          value: { blockhash, lastValidBlockHeight },
+        } = await connection.getLatestBlockhashAndContext();
+        message.recentBlockhash = blockhash;
+        const transactionMessage = TransactionMessage.decompile(message);
+        const transaction = new VersionedTransaction(
+          transactionMessage.compileToLegacyMessage()
+        );
 
-      let signedTx;
-      if (wallet.signTransaction) {
-        signedTx = await wallet.signTransaction(transaction);
-      } else if (wallet.signAllTransactions) {
-        const signedAllTxs = await wallet.signAllTransactions([transaction]);
-        signedTx = signedAllTxs[0];
-      }
+        let signedTx;
+        if (wallet.signTransaction) {
+          signedTx = await wallet.signTransaction(transaction);
+        } else if (wallet.signAllTransactions) {
+          const signedAllTxs = await wallet.signAllTransactions([transaction]);
+          signedTx = signedAllTxs[0];
+        }
 
-      if (signedTx) {
-        const rawTransaction = signedTx.serialize();
-        const txHash = await connection.sendRawTransaction(rawTransaction, {
-          skipPreflight: false,
-          preflightCommitment: "confirmed",
-        });
-        await connection.confirmTransaction(txHash, "confirmed");
-        return txHash;
-      } else {
-        const txHash = await wallet.sendTransaction(transaction, connection, {
-          minContextSlot,
-        });
-        return txHash;
-      }
-    }
-    return null;
-  };
-
-  const sendMultiSignTransaction = async (txMessage) => {
-    if (account && wallet.publicKey) {
-      const transaction = Transaction.from(Buffer.from(txMessage, "hex"));
-
-      let signedTx;
-      if (wallet.signTransaction) {
-        signedTx = await wallet.signTransaction(transaction);
-      } else if (wallet.signAllTransactions) {
-        const signedAllTxs = await wallet.signAllTransactions([transaction]);
-        signedTx = signedAllTxs[0];
-      }
-
-      if (signedTx) {
-        const rawTransaction = signedTx.serialize();
-        const txHash = await connection.sendRawTransaction(rawTransaction, {
-          skipPreflight: false,
-          preflightCommitment: "confirmed",
-        });
-        await connection.confirmTransaction(txHash, "confirmed");
-        return txHash;
+        if (signedTx) {
+          const rawTransaction = signedTx.serialize();
+          const txHash = await connection.sendRawTransaction(rawTransaction, {
+            skipPreflight: false,
+            preflightCommitment: "confirmed",
+          });
+          await connection.confirmTransaction(txHash, "finalized");
+          return txHash;
+        } else {
+          const txHash = await wallet.sendTransaction(transaction, connection, {
+            minContextSlot,
+          });
+          return txHash;
+        }
       }
       return null;
+    } catch (error) {
+      console.error("Transaction failed or was not finalized:", error);
+      return null;
     }
-    return null;
+  };
+
+  const sendTransaction = async (txMessage) => {
+    try {
+      if (account && wallet.publicKey) {
+        const transaction = Transaction.from(Buffer.from(txMessage, "hex"));
+
+        let signedTx;
+        if (wallet.signTransaction) {
+          signedTx = await wallet.signTransaction(transaction);
+        } else if (wallet.signAllTransactions) {
+          const signedAllTxs = await wallet.signAllTransactions([transaction]);
+          signedTx = signedAllTxs[0];
+        }
+
+        if (signedTx) {
+          const rawTransaction = signedTx.serialize();
+          const txHash = await connection.sendRawTransaction(rawTransaction, {
+            skipPreflight: false,
+            preflightCommitment: "confirmed",
+          });
+          await connection.confirmTransaction(txHash, "finalized");
+          return txHash;
+        }
+        return null;
+      }
+      return null;
+    } catch (error) {
+      console.error("Transaction failed or was not finalized:", error);
+      return null;
+    }
   };
 
   return {
@@ -121,7 +131,7 @@ const useSolanaWallet = () => {
     reset,
     signPersonalMessage,
     sendTransaction,
-    sendMultiSignTransaction,
+    sendTransactionByBlockhash,
   };
 };
 
