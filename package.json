@@ -21,7 +21,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean-deploy": "gh-pages-clean",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@types/bs58": "^4.0.4",

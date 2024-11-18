@@ -29,11 +29,12 @@ example to sign a message: `http://localhost:3000/?action=sign&message=helloworl
 
 Create a link with the following params
 
-| Params          | Description                         |
-| --------------- | ----------------------------------- |
-| &action=send    | action to send transaction          |
-| &networkId=0    | 0 for mainnet, 1 for devnet         |
-| &txMessage=0x01 | The message of transaction compiled |
+| Params          		| Description                         					|
+| --------------- 		| -------------------------------------------------     |
+| &action=send    		| action to send transaction          					|
+| &action=sendbyblock   | action to send transaction with regen blockhash       |
+| &networkId=0    		| 0 for mainnet, 1 for devnet         					|
+| &txMessage=0x01 		| The message of transaction compiled 					|
 
 example to send a transaction: `http://localhost:3000/?action=send&networkId=0&txMessage=0x1000...0000`
 
