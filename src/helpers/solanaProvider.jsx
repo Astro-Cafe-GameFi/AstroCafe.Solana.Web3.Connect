@@ -4,6 +4,7 @@ import { useStateStore } from "../store/stateStore.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+// import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
