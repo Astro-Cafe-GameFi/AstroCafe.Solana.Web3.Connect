@@ -25,10 +25,10 @@ const SolanaProvider = ({ children }) => {
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new MathWalletAdapter(),
-      new TrustWalletAdapter(),
-      new CoinbaseWalletAdapter(),
+      // new SolflareWalletAdapter(),
+      // new MathWalletAdapter(),
+      // new TrustWalletAdapter(),
+      // new CoinbaseWalletAdapter(),
     ],
     [network]
   );

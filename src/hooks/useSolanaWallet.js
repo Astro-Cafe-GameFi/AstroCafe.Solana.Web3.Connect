@@ -97,7 +97,7 @@ const useSolanaWallet = () => {
   const sendTransaction = async (txMessage) => {
     try {
       if (account && wallet.publicKey) {
-        const latestBlockhash = await connection.getLatestBlockhash();
+        // const latestBlockhash = await connection.getLatestBlockhash();
         const transaction = Transaction.from(Buffer.from(txMessage, "hex"));
 
         let signedTx;
@@ -115,15 +115,15 @@ const useSolanaWallet = () => {
             preflightCommitment: "confirmed",
           });
           // Solflare wallet doesn't accept this method way
-          // await connection.confirmTransaction(txHash, "finalized");
-          const confirmation = await connection.confirmTransaction(
-            {
-              signature: txHash,
-              blockhash: transaction.recentBlockhash,
-              lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
-            },
-            "finalized"
-          );
+          await connection.confirmTransaction(txHash, "finalized");
+          // const confirmation = await connection.confirmTransaction(
+          //   {
+          //     signature: txHash,
+          //     blockhash: transaction.recentBlockhash,
+          //     lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+          //   },
+          //   "finalized"
+          // );
 
           if (confirmation.value.err) {
             console.log(
