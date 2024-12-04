@@ -1,16 +1,11 @@
 /* eslint-disable */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useStateStore } from "../store/stateStore.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-// import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import {
   PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  MathWalletAdapter,
-  TrustWalletAdapter,
-  CoinbaseWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 
@@ -22,20 +17,28 @@ const SolanaProvider = ({ children }) => {
   const network = useMemo(() => useMainnet ? WalletAdapterNetwork.Mainnet : WalletAdapterNetwork.Devnet, [useMainnet]);
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      // new SolflareWalletAdapter(),
-      // new MathWalletAdapter(),
-      // new TrustWalletAdapter(),
-      // new CoinbaseWalletAdapter(),
-    ],
-    [network]
-  );
+  
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const walletButtons = document.querySelectorAll(".wallet-adapter-button");
+      walletButtons.forEach((button) => {
+        // console.log(button.textContent.toLowerCase())
+        if (button.textContent && button.textContent.toLowerCase().includes("phantom")) {
+          
+        } else {
+          button.remove();
+        }
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect={true}>
+      <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           {children}
         </WalletModalProvider>
