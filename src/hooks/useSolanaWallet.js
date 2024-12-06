@@ -125,12 +125,12 @@ const useSolanaWallet = () => {
           //   "finalized"
           // );
 
-          if (confirmation.value.err) {
-            console.log(
-              `Transaction failed: ${JSON.stringify(confirmation.value.err)}`
-            );
-            return null;
-          }
+          // if (confirmation.value.err) {
+          //   console.log(
+          //     `Transaction failed: ${JSON.stringify(confirmation.value.err)}`
+          //   );
+          //   return null;
+          // }
           return txHash;
         }
         return null;
